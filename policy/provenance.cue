@@ -6,7 +6,7 @@ predicate: {
   invocation: {
     configSource: {
       entryPoint: ".github/workflows/on-tag.yaml"
-      uri: =~"^git\\+https://github.com/mchmarny/s3cme@refs/tags/v[0-9]+.[0-9]+.[0-9]+$"
+      uri: =~"^git\\+https://github.com/developer-guy/s3cme@refs/tags/v[0-9]+.[0-9]+.[0-9]+$"
     }
   }
 }

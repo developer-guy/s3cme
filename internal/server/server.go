@@ -10,7 +10,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/mchmarny/s3cme/internal/handler"
+	"github.com/developer-guy/s3cme/internal/handler"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )

@@ -5,7 +5,7 @@ metadata:
   name: sbom-attestation-image-policy
 spec:
   images:
-  - glob: ghcr.io/mchmarny/**
+  - glob: ghcr.io/developer-guy/**
   authorities:
   - static:
       action: pass

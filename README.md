@@ -80,7 +80,7 @@ When successfully completed, that pipeline will create an image. Navigate to the
 
 > This link will take you to the original template registry. Replace username and repo to navigate to yours.
 
-https://github.com/mchmarny/s3cme/pkgs/container/s3cme
+https://github.com/developer-guy/s3cme/pkgs/container/s3cme
 
 ![](images/reglist.png)
 
@@ -121,7 +121,7 @@ Certificate issuer URL: https://token.actions.githubusercontent.com
 GitHub Workflow Trigger: push
 GitHub Workflow SHA: 5ed1e3b75214316fd5cd09e77b88f41c01ea85ec
 GitHub Workflow Name: on_tag
-GitHub Workflow Repository: mchmarny/s3cme
+GitHub Workflow Repository: developer-guy/s3cme
 GitHub Workflow Ref: refs/tags/v0.6.35
 ```
 
@@ -153,7 +153,7 @@ Returns:
     "predicateType": "https://slsa.dev/provenance/v0.2",
     "subject": [
         {
-            "name": "ghcr.io/mchmarny/s3cme",
+            "name": "ghcr.io/developer-guy/s3cme",
             "digest": {
                 "sha256": "c85cdbb4cff81cd12f12af9cc7da4929f1b653a55896501e18755674739403fa"
             }
@@ -173,7 +173,7 @@ First, review the [policy/cluster.yaml](policy/cluster.yaml) file, and make sure
 
 ```yaml
 images:
-- glob: ghcr.io/mchmarny/**
+- glob: ghcr.io/developer-guy/**
 ```
 
 Next, check the subject portion of the issuer identity (in this case, the SLSA generator workflow for containers, with the repo tag)
@@ -221,23 +221,23 @@ admission webhook "policy.sigstore.dev" denied the request: validation failed: n
 index.docker.io/nginxdemos/hello@sha256:46bd594006f4bacc8a6c1cc2941ef842caf2358bc258619f7bea1558bc461b38
 ```
 
-That policy failed because the image URI doesn't match the images glob we've specified (`glob: ghcr.io/mchmarny/**`). How about if we try to deploy image that does, but does not have SLSA attestation:
+That policy failed because the image URI doesn't match the images glob we've specified (`glob: ghcr.io/developer-guy/**`). How about if we try to deploy image that does, but does not have SLSA attestation:
 
 ```shell
-kubectl run test -n demo --image ghcr.io/mchmarny/s3cme-no-slsa@sha256:0d8b8a9e3635545476b880612d5a058616d7ac378b79b67ad412e9a9c11e7e45
+kubectl run test -n demo --image ghcr.io/developer-guy/s3cme-no-slsa@sha256:0d8b8a9e3635545476b880612d5a058616d7ac378b79b67ad412e9a9c11e7e45
 ```
 
 Now the failure is on the SLSA policy due to lack of verifiable attestations:
 
 ```shell
 admission webhook "policy.sigstore.dev" denied the request: validation failed: failed policy: slsa-attestation-image-policy: spec.containers[0].image
-ghcr.io/mchmarny/s3cme@sha256:c85cdbb4cff81cd12f12af9cc7da4929f1b653a55896501e18755674739403fa attestation keyless validation failed for authority authority-0 for ghcr.io/mchmarny/s3cme@sha256:0d8b8a9e3635545476b880612d5a058616d7ac378b79b67ad412e9a9c11e7e45: no matching attestations:
+ghcr.io/developer-guy/s3cme@sha256:c85cdbb4cff81cd12f12af9cc7da4929f1b653a55896501e18755674739403fa attestation keyless validation failed for authority authority-0 for ghcr.io/developer-guy/s3cme@sha256:0d8b8a9e3635545476b880612d5a058616d7ac378b79b67ad412e9a9c11e7e45: no matching attestations:
 ```
 
 Finally deploy image form the trusted registry and with SLSA attestation: 
 
 ```shell
-kubectl run test -n demo --image ghcr.io/mchmarny/s3cme@sha256:c85cdbb4cff81cd12f12af9cc7da4929f1b653a55896501e18755674739403fa
+kubectl run test -n demo --image ghcr.io/developer-guy/s3cme@sha256:c85cdbb4cff81cd12f12af9cc7da4929f1b653a55896501e18755674739403fa
 ```
 
 Now, the response is simple: 
