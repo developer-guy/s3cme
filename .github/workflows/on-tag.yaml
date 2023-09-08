@@ -71,6 +71,20 @@ jobs:
       cosign_version: ${{ needs.conf.outputs.cosign_version }}
       image_digest: ${{ needs.build.outputs.digest }}
 
+  sign-keyless:
+    needs:
+    - conf
+    - build
+    permissions:
+      contents: read
+      actions: read
+      packages: write
+      id-token: write
+    uses: ./.github/workflows/sign-keyless.yaml
+    with:
+      cosign_version: ${{ needs.conf.outputs.cosign_version }}
+      image_digest: ${{ needs.build.outputs.digest }}
+
   scan:
     needs:
     - conf
